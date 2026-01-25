@@ -1,0 +1,41 @@
+#!/bin/bash
+# Pre-commit hook for generating commit messages with rusty-commit
+# Usage: rusty-commit-msg <commit-message-file>
+
+set -e
+
+COMMIT_MSG_FILE="$1"
+
+if [ -z "$COMMIT_MSG_FILE" ]; then
+    echo "Error: No commit message file provided" >&2
+    exit 1
+fi
+
+# Check if we're in a git repository
+if ! git rev-parse --is-inside-work-tree > /dev/null 2>&1; then
+    echo "Not in a git repository"
+    exit 0
+fi
+
+# Check if there are staged changes
+if git diff --cached --quiet 2>/dev/null; then
+    echo "No staged changes, skipping rusty-commit"
+    exit 0
+fi
+
+# Find rco in PATH
+RCO_PATH=$(command -v rco 2>/dev/null || true)
+if [ -z "$RCO_PATH" ]; then
+    echo "Error: rco not found in PATH" >&2
+    exit 1
+fi
+
+# Generate commit message using --print (outputs to stdout without committing)
+# Write directly to the commit message file
+# Use --generate 1 to ensure single message (non-interactive)
+"$RCO_PATH" --print --yes --no-pre-hooks --no-post-hooks --generate 1 > "$COMMIT_MSG_FILE" 2>/dev/null || {
+    echo "Failed to generate commit message" >&2
+    exit 0
+}
+
+echo "Generated commit message with rusty-commit"

@@ -1,0 +1,14 @@
+# See https://pre-commit.com for more information
+repos:
+  - repo: https://github.com/hongkongkiwi/precommit-rusty-commit
+    rev: v0.1.0  # TODO: Update with the latest tag
+    hooks:
+      - id: rusty-commit-msg
+        name: Rusty Commit
+        description: Generate AI-powered commit messages using rusty-commit
+        entry: rusty-commit-msg
+        language: script
+        stages: [commit-msg]
+        always_run: false
+        pass_filenames: true
+        fail_fast: false
