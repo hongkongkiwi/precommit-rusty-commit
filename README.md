@@ -8,14 +8,14 @@ Add this to your `.pre-commit-config.yaml`:
 
 ```yaml
 - repo: https://github.com/hongkongkiwi/precommit-rusty-commit
-  rev: v1.0.2218  # Use the latest version
+  rev: v1.0.24218  # Use the latest version
   hooks:
     - id: rusty-commit-msg
 ```
 
 ## Requirements
 
-- [rusty-commit](https://github.com/hongkongkiwi/rusty-commit) v1.0.2218+ must be installed (with `--print` flag)
+- [rusty-commit](https://github.com/hongkongkiwi/rusty-commit) v1.0.24218+ must be installed (with `--print` flag)
 - An AI API key configured via environment variable `RCO_API_KEY` or via `rco config set`
 
 ## Setup
